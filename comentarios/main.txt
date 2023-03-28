@@ -1,0 +1,9 @@
+Basicamente, a função convertPokemonToHtml recebe um objeto pokemon como parâmetro e retorna uma string com a estrutura HTML
+ necessária para exibi-lo na lista. Em seguida, a variável pokemonList é definida como o elemento HTML com o ID "pokemonList".
+
+Depois disso, a requisição pokeApi.getPokemons() é feita para obter a lista de pokémons. Dentro da função then, a lista de pokémons 
+é percorrida usando um loop for e cada pokemon é convertido em uma string HTML usando a função convertPokemonToHtml. Em seguida, a string 
+HTML de cada pokemon é adicionada à lista listItens.
+
+Finalmente, a lista de itens é exibida no console usando console.log(listItens). No entanto, para exibir a lista na página HTML,
+ é necessário adicionar o conteúdo de listItens ao elemento HTML pokemonList.
