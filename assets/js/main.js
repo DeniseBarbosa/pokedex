@@ -14,18 +14,20 @@
  * @param {Object} pokemon - objeto com informações do pokemon
  * @returns {String} - string com o HTML do pokemon
  */
+function convertPokemonTypesToList(pokemonTypes) {
+    return pokemonTypes.map((typeSlot) => `<li class="type">${typeSlot.type.name}</li>`)
+}
 function convertPokemonToHtml(pokemon) {
     // Utiliza string template para retornar o HTML do pokemon
     return `
         <li class="pokemon">
-            <span class="number">#001</span>
+            <span class="number">#${pokemon.order}</span>
             <span class="name">${pokemon.name}</span>
             <div class="detail">
                 <ol class="types">
-                    <li class="type">grass</li>
-                    <li class="type">poison</li>
+                    ${convertPokemonTypesToList(pokemon.types).join('')}
                 </ol>
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"
+                <img src="${pokemon.sprites.other.dream_world.front_default}"
                     alt="${pokemon.name}">
             </div>
         </li>
@@ -41,6 +43,7 @@ pokeApi.getPokemons().then((pokemons = []) => {
     // Utiliza o método map para aplicar a função convertPokemonToHtml a cada pokemon e gerar uma lista de strings HTML
     // Utiliza o método join para concatenar todas as strings HTML em uma só
     // O resultado é adicionado ao HTML da lista de pokemons
-    pokemonList.innerHTML += pokemons.map(convertPokemonToHtml).join('');
+    const newHtml = pokemons.map(convertPokemonToHtml).join('');
+    pokemonList.innerHTML = newHtml
 });
 
