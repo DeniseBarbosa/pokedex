@@ -14,10 +14,17 @@
  * @param {Object} pokemon - objeto com informações do pokemon
  * @returns {String} - string com o HTML do pokemon
  */
+const pokemonList = document.getElementById('pokemonList')
+const loadMoreButton = document.getElementById('loadMoreButton')
+const limit = 5
+let offset = 0;
 
-function convertPokemonToHtml(pokemon) {
-    // Utiliza string template para retornar o HTML do pokemon
-    return `
+
+
+function loadPokemonItens(offset, limit) {
+    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
+        const newHtml = pokemons.map((pokemon) =>
+            `
         <li class="pokemon ${pokemon.type}">
             <span class="number">#${pokemon.number}</span>
             <span class="name">${pokemon.name}</span>
@@ -29,19 +36,19 @@ function convertPokemonToHtml(pokemon) {
                     alt="${pokemon.name}">
             </div>
         </li>
-    `;
+    `
+
+
+        ).join('');
+        pokemonList.innerHTML += newHtml
+    });
 }
 
-// Obtém a referência do elemento com id "pokemonList"
-const pokemonList = document.getElementById('pokemonList');
 
-// Chama o método getPokemons da variável pokeApi e atribui o resultado à variável pokemons
-pokeApi.getPokemons().then((pokemons = []) => {
-    // Utiliza o operador += para adicionar à lista de pokemons os pokemons obtidos da API
-    // Utiliza o método map para aplicar a função convertPokemonToHtml a cada pokemon e gerar uma lista de strings HTML
-    // Utiliza o método join para concatenar todas as strings HTML em uma só
-    // O resultado é adicionado ao HTML da lista de pokemons
-    const newHtml = pokemons.map(convertPokemonToHtml).join('');
-    pokemonList.innerHTML = newHtml
-});
 
+
+loadPokemonItens(offset, limit)
+loadMoreButton.addEventListener('click', () => {
+    offset += limit
+    loadPokemonItens(offset, limit)
+})
